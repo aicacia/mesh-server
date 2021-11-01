@@ -1,0 +1,11 @@
+.github/
+.vscode/
+node_modules/
+helm/
+.editorconfig
+.eslintignore
+.eslintrc
+.gitignore
+npm-debug.log
+tsconfig.json
+server.js

@@ -1,0 +1,37 @@
+replicas:
+  min: 1
+  max: 1
+  resource:
+    cpu:
+      utilization: 90
+
+image:
+  repository: docker.pkg.github.com/aicacia/api/mesh-server
+  pullPolicy: Always
+  hash: sha256:2af310fac13872efeed20df46547f19616fecab261e1dd0a23bc63c5b75ad30f
+
+env:
+  NODE_ENV: production
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+  hosts:
+    - host: mesh.aicacia.com
+      paths:
+        - /
+  tls:
+    - secretName: mesh-aicacia-com-tls
+      hosts:
+        - mesh.aicacia.com
+
+resources:
+  requests:
+    cpu: 800m
+    memory: 100M
+  limits:
+    cpu: 1000m
+    memory: 1000M

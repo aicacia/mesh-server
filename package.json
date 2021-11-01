@@ -1,0 +1,59 @@
+{
+  "name": "@aicacia/mesh-server",
+  "version": "0.1.0",
+  "description": "mesh socket.io server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aicacia/ts-mesh-server.git"
+  },
+  "main": "server.ts",
+  "scripts": {
+    "start": "nodemon -w server.ts --exec 'ts-node server.ts'",
+    "build": "tsc",
+    "doc": "typedoc",
+    "clean": "rm -rf server.js",
+    "lint": "eslint . --fix",
+    "prettier": "prettier --ignore-path ./.eslintignore --ignore-unknown --write .",
+    "preCommit": "npm run prettier && npm run lint=",
+    "docker.build": "docker build -t docker.pkg.github.com/aicacia/api/mesh-server:latest .",
+    "docker.push": "docker push docker.pkg.github.com/aicacia/api/mesh-server:latest",
+    "docker.run": "docker run --name mesh-server --rm -it -p 8080:8080 docker.pkg.github.com/aicacia/api/mesh-server:latest",
+    "docker.stop": "docker stop mesh-server",
+    "helm.delete": "helm delete -n api mesh-server",
+    "helm.upgrade": "helm upgrade mesh-server helm/mesh-server-api -n api --install --set image.hash=\"$(docker inspect --format='{{index .Id}}' docker.pkg.github.com/aicacia/api/mesh-server:latest)\"",
+    "helm": "npm run docker.build && npm run docker.push && npm run helm.upgrade"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run preCommit"
+    }
+  },
+  "keywords": [
+    "mesh",
+    "socket.io",
+    "network",
+    "peer",
+    "p2p"
+  ],
+  "author": "Nathan Faucett",
+  "license": "(MIT OR Apache-2.0)",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "@types/tape": "4",
+    "@typescript-eslint/eslint-plugin": "5",
+    "@typescript-eslint/parser": "5",
+    "eslint": "8",
+    "eslint-config-prettier": "8",
+    "eslint-plugin-prettier": "4",
+    "husky": "4",
+    "nodemon": "2",
+    "prettier": "2",
+    "ts-node": "10",
+    "tslib": "2",
+    "typedoc": "0",
+    "typescript": "4"
+  },
+  "dependencies": {
+    "socket.io": "4"
+  }
+}
