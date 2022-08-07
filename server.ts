@@ -1,9 +1,10 @@
 import { createServer } from "http";
-import { Server, Socket } from "socket.io";
+import { Server, type Socket } from "socket.io";
 
 const PORT = parseInt(process.env.PORT || "8080");
 
 const server = createServer();
+
 const io = new Server({
   serveClient: false,
   cors: {

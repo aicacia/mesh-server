@@ -28,14 +28,14 @@ spec:
                 name: {{ include "mesh-server-api.fullname" . }}-environment
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.env.PORT }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
-              port: 8080
+              port: {{ .Values.env.PORT }}
           readinessProbe:
             tcpSocket:
-              port: 8080
+              port: {{ .Values.env.PORT }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
