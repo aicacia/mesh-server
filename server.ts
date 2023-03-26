@@ -5,11 +5,16 @@ const PORT = parseInt(process.env.PORT || "8080");
 
 const server = createServer();
 
-const io = new Server({
+const io = new Server(server, {
   serveClient: false,
+  cookie: true,
+  transports: ["websocket"],
   cors: {
-    origin: "*",
+    origin: (requestOrigin, callback) => {
+      callback(null, requestOrigin);
+    },
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
@@ -31,9 +36,6 @@ function onConnection(socket: Socket) {
 
 io.on("connection", onConnection);
 io.of(/.*/).on("connection", onConnection);
-io.attach(server, {
-  cookie: false,
-});
 
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);

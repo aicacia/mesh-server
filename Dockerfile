@@ -1,6 +1,6 @@
-FROM node:16-alpine as node-builder
+FROM node:19-alpine as node-builder
 
-RUN npm install --location=global npm@8.16.0
+RUN npm install --location=global npm@9.3.1
 WORKDIR /app
 
 FROM node-builder as builder
